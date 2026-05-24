@@ -6,6 +6,8 @@ const API = axios.create({
 
 export const getMembers      = () => API.get('/members');
 export const addMember       = (data) => API.post('/members', data);
+export const updateMember    = (id, data) => API.put(`/members/${id}`, data);
+export const deleteMember    = (id) => API.delete(`/members/${id}`);
 export const getTransactions = () => API.get('/transactions');
 export const addTransaction  = (data) => API.post('/transactions', data);
 export const getRFM          = () => API.get('/rfm');

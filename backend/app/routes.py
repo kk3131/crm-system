@@ -18,6 +18,28 @@ def get_members():
         'join_date': str(m.join_date)
     } for m in members])
 
+# 編輯會員
+@bp.route('/api/members/<int:mid>', methods=['PUT'])
+def update_member(mid):
+    member = Member.query.get_or_404(mid)
+    data = request.json
+    member.name     = data.get('name',   member.name)
+    member.email    = data.get('email',  member.email)
+    member.phone    = data.get('phone',  member.phone)
+    member.gender   = data.get('gender', member.gender)
+    birthday_raw    = data.get('birthday')
+    member.birthday = birthday_raw if birthday_raw else None
+    db.session.commit()
+    return jsonify({'message': '會員更新成功'})
+
+# 刪除會員
+@bp.route('/api/members/<int:mid>', methods=['DELETE'])
+def delete_member(mid):
+    member = Member.query.get_or_404(mid)
+    db.session.delete(member)
+    db.session.commit()
+    return jsonify({'message': '會員刪除成功'})
+
 # 新增會員
 @bp.route('/api/members', methods=['POST'])
 def add_member():
